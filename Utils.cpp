@@ -1,4 +1,5 @@
 #include "Utils.h"
+#include <string>
 
 int bufferSize = 512;
 
@@ -36,8 +37,16 @@ int getFile(SOCKET socket, SOCKADDR_IN addr, char *filename)
 	int ret = mySend(socket, out, offset, addr);
 	free(out);
 
+	FILE *fp;
+	string isOverwrite;
+	if ( fopen(filename, "r") != NULL) {
+		cout << "File exists, Overwrite? Y|N ";
+		cin >> isOverwrite;
+		if (isOverwrite == "N")
+			exit(1);
+	}
 
-	FILE *fp = fopen(filename, "w");
+	fp = fopen(filename, "w");
 	if (fp == NULL) {
 		printf("Create file \"%s\" error.\n", filename);
 		return -2;

@@ -2,7 +2,7 @@
 
 
 
-int main(int argc, _TCHAR* argv1[])
+int _tmain(int argc, _TCHAR* argv1[])
 {
 	//char *server = "127.0.0.1";
 	//char *argv[] = { "tftp", "45.116.12.104", "put", "1234.txt" };
@@ -38,6 +38,16 @@ int main(int argc, _TCHAR* argv1[])
 		WSACleanup();
 		return 0;
 	}
+	/*
+	int imode = 1;
+	ret = ioctlsocket(clientSocket, FIONBIO, (u_long *)&imode);
+	if (ret == SOCKET_ERROR) {
+	cout << "ioctlsocket() failed!" << endl;
+	closesocket(clientSocket);
+	WSACleanup();
+	return 0;
+	}
+	*/
 
 	SOCKADDR_IN addr;
 	addr.sin_addr.S_un.S_addr = inet_addr(server);
@@ -50,6 +60,7 @@ int main(int argc, _TCHAR* argv1[])
 	data = (char *)malloc(bufferSize + 4);
 	unsigned short index = 0;
 	*/
+
 
 	if (strcmp(argv[3], "put") == 0 || strcmp(argv[3], "PUT") == 0) {
 		ret = putFile(clientSocket, addr, argv[4]);
@@ -64,6 +75,5 @@ int main(int argc, _TCHAR* argv1[])
 
 	closesocket(clientSocket);
 	WSACleanup();
-	getchar();
 	return 0;
 }
